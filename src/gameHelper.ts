@@ -1,10 +1,9 @@
-import inquirer from "inquirer";
+import inquirer from 'inquirer';
 import { parseArgs } from './cli/args.js';
 import { HANDS, toHand, type Hand } from './game/rules.js';
 import { PLAYER_TYPES } from './players/player.js';
 
 export class GameHelper {
-
   /** Offers exactly the types the player factory accepts; the factory validates the string, not this prompt. */
   static async choosePlayerType(message: string): Promise<string> {
     const answer = await inquirer.prompt([

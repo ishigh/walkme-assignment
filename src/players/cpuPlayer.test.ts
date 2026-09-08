@@ -26,7 +26,16 @@ describe('drawOne', () => {
 describe('CpuPlayer', () => {
   it('draws the number of hands the strategy decides', async () => {
     assert.equal((await new CpuPlayer('CPU', drawAll, () => 0).getHands(3)).length, 3);
-    assert.equal((await new CpuPlayer('CPU', () => 1, () => 0).getHands(3)).length, 1);
+    assert.equal(
+      (
+        await new CpuPlayer(
+          'CPU',
+          () => 1,
+          () => 0
+        ).getHands(3)
+      ).length,
+      1
+    );
   });
 
   it('maps the random source onto the hand list in order', async () => {
@@ -41,7 +50,11 @@ describe('CpuPlayer', () => {
 
   it('rejects a strategy that does not return a positive integer', async () => {
     for (const count of [0, -1, 1.5]) {
-      const player = new CpuPlayer('CPU', () => count, () => 0);
+      const player = new CpuPlayer(
+        'CPU',
+        () => count,
+        () => 0
+      );
       await assert.rejects(
         player.getHands(3),
         new RegExp(`CPU: the hand-count strategy returned ${count}; expected a positive integer`)

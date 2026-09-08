@@ -46,7 +46,7 @@ export interface CliOptions {
 
 /** The only keys the game accepts (they match the package.json scripts); anything else is a typo and is rejected. */
 const ARG_KEYS = ['player1Type', 'player2Type', 'numberOfHands', 'numberOfRounds'] as const;
-type ArgKey = (typeof ARG_KEYS)[number];
+type ArgKey = typeof ARG_KEYS[number];
 
 /** Digits only, no sign, no leading zero, no whitespace: "3" yes; "0", "-1", "+3", "03", "1.5", " 3", "3abc" no. */
 const POSITIVE_INTEGER = /^[1-9]\d*$/;
@@ -64,7 +64,11 @@ export function readCliOptions(tokens: readonly string[]): CliOptions {
   return {
     settings: {
       numberOfHands: readPositiveInteger('numberOfHands', get('numberOfHands'), DEFAULT_GAME_SETTINGS.numberOfHands),
-      numberOfRounds: readPositiveInteger('numberOfRounds', get('numberOfRounds'), DEFAULT_GAME_SETTINGS.numberOfRounds),
+      numberOfRounds: readPositiveInteger(
+        'numberOfRounds',
+        get('numberOfRounds'),
+        DEFAULT_GAME_SETTINGS.numberOfRounds
+      ),
     },
     player1Type: get('player1Type'),
     player2Type: get('player2Type'),

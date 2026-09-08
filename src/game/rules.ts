@@ -4,7 +4,7 @@
  */
 
 export const HANDS = ['Rock', 'Paper', 'Scissors'] as const;
-export type Hand = (typeof HANDS)[number];
+export type Hand = typeof HANDS[number];
 
 /** Which hand each hand beats. Record<Hand, Hand> forces one entry per hand in HANDS. */
 const BEATS: Record<Hand, Hand> = {
@@ -92,8 +92,8 @@ export const compareHandSets = (player1Hands: readonly Hand[], player2Hands: rea
     const player2 = handAt(player2Hands, index);
     return { player1, player2, winner: compareHands(player1, player2) };
   });
-  const player1Wins = hands.filter((hand) => hand.winner === 'player1').length;
-  const player2Wins = hands.filter((hand) => hand.winner === 'player2').length;
+  const player1Wins = hands.filter(hand => hand.winner === 'player1').length;
+  const player2Wins = hands.filter(hand => hand.winner === 'player2').length;
   const round: RoundResult = { hands, player1Wins, player2Wins, winner: winnerByWins(player1Wins, player2Wins) };
   const singleHand = findSingleHand(player1Hands, player2Hands);
   return singleHand ? { ...round, singleHand } : round;
