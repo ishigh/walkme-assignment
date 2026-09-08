@@ -96,12 +96,26 @@ describe('Game', () => {
     assert.deepEqual(allDrawn, { player1Wins: 0, player2Wins: 0, draws: 2, winner: 'draw' });
   });
 
+  it('scores a round in which one player brought a single hand, as the rules resolve it', async () => {
+    const log: string[] = [];
+    const player1 = scripted(log, 'P1', ['Rock', 'Rock', 'Paper']);
+    const player2 = scripted(log, 'P2', ['Scissors']);
+    const reporter = new RecordingReporter(log);
+
+    const result = await new Game(player1, player2, { numberOfRounds: 1, numberOfHands: 3 }, reporter).play();
+
+    assert.deepEqual(log.slice(1, 3), ['P1 draws 3', 'P2 draws 3']);
+    assert.deepEqual(reporter.rounds, [compareHandSets(['Rock', 'Rock', 'Paper'], ['Scissors'])]);
+    assert.deepEqual(reporter.rounds[0].singleHand, { player: 'player2', hand: 'Scissors' });
+    assert.deepEqual(result, { player1Wins: 1, player2Wins: 0, draws: 0, winner: 'player1' });
+  });
+
   it('rejects instead of scoring a round the rules cannot resolve', async () => {
     const log: string[] = [];
     const player1 = scripted(log, 'P1', ['Rock', 'Rock']);
-    const player2 = scripted(log, 'P2', ['Rock']);
+    const player2 = scripted(log, 'P2', ['Rock', 'Rock', 'Rock']);
     const game = new Game(player1, player2, { numberOfRounds: 1, numberOfHands: 2 }, new RecordingReporter(log));
 
-    await assert.rejects(game.play(), /same length/);
+    await assert.rejects(game.play(), /same length unless one of them is a single hand/);
   });
 });

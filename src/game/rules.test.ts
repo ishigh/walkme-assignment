@@ -52,8 +52,44 @@ describe('compareHandSets', () => {
     assert.equal(compareHandSets(['Rock', 'Rock'], ['Rock', 'Rock']).winner, 'draw');
   });
 
-  it('throws when the sets have different lengths', () => {
-    assert.throws(() => compareHandSets(['Rock'], ['Rock', 'Rock']), /same length/);
+  it('reports no single hand when both sets have the same size', () => {
+    assert.equal('singleHand' in compareHandSets(['Rock', 'Paper'], ['Scissors', 'Scissors']), false);
+    assert.equal('singleHand' in compareHandSets(['Rock'], ['Paper']), false);
+  });
+
+  it('plays a single hand against each of the other player hands', () => {
+    const result = compareHandSets(['Rock'], ['Scissors', 'Paper', 'Rock']);
+    assert.deepEqual(result, {
+      hands: [
+        { player1: 'Rock', player2: 'Scissors', winner: 'player1' },
+        { player1: 'Rock', player2: 'Paper', winner: 'player2' },
+        { player1: 'Rock', player2: 'Rock', winner: 'draw' },
+      ],
+      player1Wins: 1,
+      player2Wins: 1,
+      winner: 'draw',
+      singleHand: { player: 'player1', hand: 'Rock' },
+    });
+
+    const mirrored = compareHandSets(['Scissors', 'Paper', 'Paper'], ['Rock']);
+    assert.deepEqual(mirrored.singleHand, { player: 'player2', hand: 'Rock' });
+    assert.equal(mirrored.hands.length, 3);
+    assert.equal(mirrored.player1Wins, 2);
+    assert.equal(mirrored.player2Wins, 1);
+    assert.equal(mirrored.winner, 'player1');
+  });
+
+  it('throws on an empty set', () => {
+    assert.throws(() => compareHandSets([], ['Rock']), /must not be empty \(player 1 has 0, player 2 has 1\)/);
+    assert.throws(() => compareHandSets(['Rock', 'Paper'], []), /must not be empty/);
+    assert.throws(() => compareHandSets([], []), /must not be empty/);
+  });
+
+  it('throws when the sizes differ and neither is a single hand', () => {
+    assert.throws(
+      () => compareHandSets(['Rock', 'Rock'], ['Rock', 'Rock', 'Rock']),
+      /same length unless one of them is a single hand \(player 1 has 2, player 2 has 3\)/
+    );
   });
 });
 

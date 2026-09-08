@@ -7,6 +7,9 @@ export type HandCountStrategy = (requested: number) => number;
 /** The regular CPU draws every hand the game asks for. */
 export const drawAll: HandCountStrategy = requested => requested;
 
+/** The Monkey draws a single hand per round, whatever the game asks for (PDF Part Four). */
+export const drawOne: HandCountStrategy = () => 1;
+
 /** A number in [0, 1), like `Math.random`. Injected so tests can make the draw deterministic. */
 export type RandomSource = () => number;
 
@@ -19,7 +22,11 @@ export class CpuPlayer implements Player {
   ) {}
 
   getHands = async (numberOfHands: number): Promise<Hand[]> => {
-    return Array.from({ length: this.handCount(numberOfHands) }, () => this.drawHand());
+    const count = this.handCount(numberOfHands);
+    if (!Number.isInteger(count) || count < 1) {
+      throw new Error(`${this.name}: the hand-count strategy returned ${count}; expected a positive integer`);
+    }
+    return Array.from({ length: count }, () => this.drawHand());
   };
 
   private drawHand(): Hand {

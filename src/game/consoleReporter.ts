@@ -16,6 +16,11 @@ export class ConsoleReporter implements GameReporter {
 
   roundFinished(round: RoundResult): void {
     const { player1, player2 } = this.names;
+    if (round.singleHand) {
+      const { player, hand } = round.singleHand;
+      const [name, opponent] = player === 'player1' ? [player1, player2] : [player2, player1];
+      console.log(`  ${name} plays a single hand (${hand}) against each of ${opponent}'s ${round.hands.length} hands`);
+    }
     round.hands.forEach((hand, index) => {
       console.log(
         `  Hand ${index + 1}: ${player1} ${hand.player1} vs ${player2} ${hand.player2} -> ${this.describe(hand.winner)}`

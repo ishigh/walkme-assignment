@@ -1,4 +1,4 @@
-import { CpuPlayer, drawAll } from './cpuPlayer.js';
+import { CpuPlayer, drawAll, drawOne } from './cpuPlayer.js';
 import { HumanPlayer } from './humanPlayer.js';
 import { PLAYER_TYPES, type Player, type PlayerType } from './player.js';
 
@@ -6,6 +6,7 @@ import { PLAYER_TYPES, type Player, type PlayerType } from './player.js';
 const PLAYER_CREATORS: Record<PlayerType, (name: string) => Player> = {
   Human: name => new HumanPlayer(name),
   CPU: name => new CpuPlayer(name, drawAll, Math.random),
+  Monkey: name => new CpuPlayer(name, drawOne, Math.random),
 };
 
 /** Boundary validation: turns an untrusted type string (prompt / CLI) into a player, or throws. */

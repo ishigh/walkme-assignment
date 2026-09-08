@@ -7,5 +7,5 @@ export interface Player {
 }
 
 /** Player types as spelled on the command line (`player2Type=CPU`, see the package.json scripts). */
-export const PLAYER_TYPES = ['Human', 'CPU'] as const;
+export const PLAYER_TYPES = ['Human', 'CPU', 'Monkey'] as const;
 export type PlayerType = (typeof PLAYER_TYPES)[number];

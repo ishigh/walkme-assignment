@@ -1,6 +1,6 @@
 # Advanced Rock-Paper-Scissors
 
-A command-line Rock-Paper-Scissors game for two players. A game is played in **rounds**; in every round each player picks a set of **hands** (Rock, Paper or Scissors). Hands are compared position by position, and the player who wins more hands wins the round.
+A command-line Rock-Paper-Scissors game for two players. A game is played in **rounds**; in every round each player picks a set of **hands** (Rock, Paper or Scissors). Hands are compared position by position, and the player who wins more hands wins the round. A player who brings a single hand to a round of several (the Monkey) plays it against each of the opponent's hands.
 
 ## Installation
 This project uses Yarn as package manager. To install all dependencies run
@@ -19,6 +19,7 @@ When a player type is not given on the command line, the game asks for it intera
 |---------|-----------|
 | `Human` | Chooses every hand from a prompt in the terminal. |
 | `CPU`   | Draws every hand at random, no interaction needed (can play against another `CPU`). |
+| `Monkey` | Draws a single hand at random per round, whatever `numberOfHands` says, and plays it against each of the opponent's hands. |
 
 ### Command-line arguments
 Arguments are `key=value` pairs. Unknown keys, malformed pairs, duplicates and non-positive numbers are rejected with an error.
@@ -42,7 +43,7 @@ yarn runGame player1Type=Human player2Type=CPU numberOfRounds=5 numberOfHands=1
 | `yarn runGame`       | Builds and starts the game (accepts the arguments above). |
 | `yarn runGameVsHuman`| Human vs Human. |
 | `yarn runGameVsBot`  | Human vs CPU. |
-| `yarn runGameVsMonkey` | Human vs Monkey (the Monkey player type is part of a later step). |
+| `yarn runGameVsMonkey` | Human vs Monkey. |
 
 ## Running the unit tests
 The game, its rules and the players have unit tests that run on Node's built-in test runner. Build first, then:
