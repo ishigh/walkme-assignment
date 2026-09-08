@@ -44,13 +44,21 @@ yarn runGame player1Type=Human player2Type=CPU numberOfRounds=5 numberOfHands=1
 | `yarn runGameVsHuman`| Human vs Human. |
 | `yarn runGameVsBot`  | Human vs CPU. |
 | `yarn runGameVsMonkey` | Human vs Monkey. |
+| `yarn lint`          | Runs ESLint with `--fix` (Prettier formatting included) over the sources. |
 
 ## Running the unit tests
-The game, its rules and the players have unit tests that run on Node's built-in test runner. Build first, then:
+The game, its rules and the players have unit tests that run on Node's built-in test runner (Node 22 or newer; developed on Node 24). Build first, then:
 ```
 yarn buildGame
 node --test "dist/src/**/*.test.js"
 ```
+
+## Linting and formatting
+ESLint and Prettier are configured in `.eslintrc.json` and `prettier.config.cjs` (restored from commit `6876245`). To check and auto-fix the sources:
+```
+yarn lint
+```
+A clean run prints nothing and changes no file.
 
 ## Discussion
 Answers to the assignment's discussion questions are in [DISCUSSION.md](DISCUSSION.md).
