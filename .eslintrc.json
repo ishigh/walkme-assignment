@@ -1,0 +1,38 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["prettier", "@typescript-eslint"],
+  "env": {
+    "node": true,
+    "commonjs": true,
+    "es2021": true,
+    "jest": true
+  },
+  "extends": ["prettier","eslint:recommended","plugin:@typescript-eslint/recommended"],
+  "rules": {
+    "import/no-extraneous-dependencies": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/no-empty-function": "off",
+    "@typescript-eslint/ban-types": [
+      "error",
+      {
+        "types": {
+          // un-ban a type that's banned by default
+          "{}": false
+        },
+        "extendDefaults": true
+      }
+    ],
+    "class-methods-use-this": "off",
+    "prettier/prettier": ["warn", {"endOfLine":"auto", "printWidth": 120}],
+    "consistent-return": "off",
+    "camelcase": "off",
+    "no-unused-vars":"off",
+    "no-console": "off",
+    "no-plusplus": "off",
+    "max-classes-per-file": ["error", 10],
+    "import/prefer-default-export": "off",
+    "no-underscore-dangle":"off"
+  }
+}
