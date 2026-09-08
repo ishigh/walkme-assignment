@@ -41,8 +41,8 @@ export const compareHands = (player1: Hand, player2: Hand): Outcome => {
   return BEATS[player1] === player2 ? 'player1' : 'player2';
 };
 
-/** The player who won more hands wins the round; equal counts are a draw. */
-const roundWinner = (player1Wins: number, player2Wins: number): Outcome => {
+/** Whoever won more (hands in a round, rounds in a game) wins; equal counts are a draw. */
+export const winnerByWins = (player1Wins: number, player2Wins: number): Outcome => {
   if (player1Wins === player2Wins) return 'draw';
   return player1Wins > player2Wins ? 'player1' : 'player2';
 };
@@ -60,5 +60,5 @@ export const compareHandSets = (player1Hands: readonly Hand[], player2Hands: rea
   });
   const player1Wins = hands.filter((hand) => hand.winner === 'player1').length;
   const player2Wins = hands.filter((hand) => hand.winner === 'player2').length;
-  return { hands, player1Wins, player2Wins, winner: roundWinner(player1Wins, player2Wins) };
+  return { hands, player1Wins, player2Wins, winner: winnerByWins(player1Wins, player2Wins) };
 };

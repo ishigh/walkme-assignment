@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { HANDS, compareHands, compareHandSets, toHand } from './rules.js';
+import { HANDS, compareHands, compareHandSets, toHand, winnerByWins } from './rules.js';
 
 describe('toHand', () => {
   it('accepts every known hand', () => {
@@ -54,5 +54,13 @@ describe('compareHandSets', () => {
 
   it('throws when the sets have different lengths', () => {
     assert.throws(() => compareHandSets(['Rock'], ['Rock', 'Rock']), /same length/);
+  });
+});
+
+describe('winnerByWins', () => {
+  it('picks the side with more wins and draws on equal counts', () => {
+    assert.equal(winnerByWins(2, 1), 'player1');
+    assert.equal(winnerByWins(0, 3), 'player2');
+    assert.equal(winnerByWins(1, 1), 'draw');
   });
 });
